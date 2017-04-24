@@ -1,0 +1,27 @@
+# open source
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, ‘7.0’
+use_frameworks!
+
+def default_pods
+
+pod ‘AFNetworking’
+
+pod ’SDWebImage’
+
+pod ’SVProgressHUD’
+
+pod ‘MJRefresh’
+
+pod 'Masonry'
+
+pod 'IQKeyboardManager'
+
+pod 'YYModel'
+
+pod ’pop’
+end
+
+target ‘CJNavigationBar’ do
+  default_pods
+end

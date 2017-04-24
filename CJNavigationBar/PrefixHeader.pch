@@ -1,0 +1,114 @@
+//
+//  PrefixHeader.pch
+//  fenghuangjinfu
+//
+//  Created by ccj on 2017/4/5.
+//  Copyright © 2017年 ccj. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* PrefixHeader_pch */
+/*
+ 配置pch
+ 
+ // 全路径
+ /Users/ccj/Desktop/资料共享/项目中的常见文件.pch
+ 
+ 1.pch也是一个头文件,提前编译
+ 
+ 2.Build Setting -> 在查找处输入prefix,-> 在precomple Prefix Header 处改成YES ->然后找到Prefix Header输入跟当前文件同名的路径之后的路径,如上述的全路径中只需要输入:01-项目中的常见文件/01-项目中的常见文件/01-项目中的常见文件.pch 这一段
+ 
+ 注意: 如果不能识别,可以再将.pch文件拖到跟工程文件同层级的文件下就可以识别(拖到01-项目中的常见文件/01-项目中的常见文件/01-项目中的常见文件.pch中第一个01-项目中的常见文件同层级)
+ 
+ */
+
+/* pch作用:
+ 1.存放一些公用的宏
+ 2.存放一些公用的头文件
+ 3.自定义Log
+ 
+ pch原理:就是把pch文件中的内容拷贝到所有文件的头部
+ 
+ 注意点:
+ pch文件一定要注意做些判断,判断下是否是OC文件,如果是就导入OC的代码
+ __LINE__ 行号
+ */
+
+// 应该在OC文件中导入以下宏
+// 所有的OC文件都会定义__OBJC__这个宏,苹果定义
+
+
+#ifndef ______PrefixHeader_pch
+#define ______PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif
+
+#ifdef __OBJC__
+
+// 获取当前手机系统的版本是否是大于iOS8;
+#define iOS8 ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0)
+
+//#import "UIImage+Image.h"
+//#import "CCJConst.h"
+//#import "NSString+CCJExtension.h"
+//#import "UIBarButtonItem+CCJExtension.h"
+//#import "UIImage+CCJExtension.h"
+//#import "UIImageView+CCJExtension.h"
+#import "UIView+CCJExtension.h"
+
+// 自定义Log
+
+// ...表示宏里面的可变参数
+// __VA_ARGS__表示函数里面的可变参数
+
+#ifdef DEBUG // 表示当前调试阶段
+
+#define CJLog(...)   NSLog(__VA_ARGS__)
+#define CJNetURL @"http://112.74.215.138:10080/message/"
+#define CJWebURL @"http://112.74.215.138:10080/"
+#define CJPlayURL @"http://112.74.215.138:10080/game/toGame?equipment=&sessionId="
+
+#else // 发布阶段
+
+#define CJLog(...)
+#define CJNetURL @"https://fenghuangjinfu.com:10443/message/"
+#define CJWebURL @"https://fenghuangjinfu.com:10443/"
+#define CJPlayURL @"http://fenghuangjinfu.com:10080/game/toGame?equipment=&sessionId="
+
+#endif
+
+// 方法输出
+#define CCJLogFunc CJLog(@"%s", __func__)
+#define CJLogFunc CJLog(@"%s, line = %d", __FUNCTION__, __LINE__)
+
+// 颜色
+#define CJARGBColor(a, r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)/255.0]
+#define CJColor(r, g, b) CJARGBColor(255, (r), (g), (b))
+#define CJGrayColor(v) CJColor((v), (v), (v))
+#define CJCommonBgColor CJGrayColor(215)
+#define CJRandomColor CJColor(arc4random_uniform(255), arc4random_uniform(255), arc4random_uniform(255))
+
+// 标签的背景颜色
+#define CJTagBgColor CJColor(70, 142, 243)
+
+// 弱引用
+#define CJWeakSelf __weak typeof(self) weakSelf = self;
+
+// 屏幕尺寸
+#define CJScreenH [UIScreen mainScreen].bounds.size.height
+#define CJScreenW [UIScreen mainScreen].bounds.size.width
+
+//#define CCJWriteToPlist(data, filename) [data writeToFile:[NSString stringWithFormat:@"/Users/ccj/Desktop/%@.plist", filename] atomically:YES];
+
+// Alert提示
+#define CJShowAlert(title) [[[UIAlertView alloc] initWithTitle:@"提示" message:title delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil, nil] show]
+
+#endif
